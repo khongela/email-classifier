@@ -1,0 +1,6 @@
+true_category,Account Management,Insurance Claims,Investment Advisory,Loan Processing,Other
+Account Management,13,0,0,0,0
+Insurance Claims,0,7,0,0,0
+Investment Advisory,0,0,12,0,0
+Loan Processing,0,0,0,6,0
+Other,0,0,0,1,5
