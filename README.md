@@ -21,17 +21,16 @@ git clone https://github.com/khongela/email-classifier.git
 cd email-classifier
 ```
 
-### 2. Set up the environment
+### 2. Install the packages
 
 ```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+py -3.12 -m pip install --user -r requirements.txt
 ```
 
 ### 3. Run the classifier
 
 ```powershell
-.\.venv\Scripts\python.exe run.py
+py -3.12 run.py
 ```
 
 Run all commands from the repository root, where `run.py` is located. The supplied emails and labels are in `data/`.
@@ -83,8 +82,8 @@ These results come from a small dataset used during development. A larger indepe
 After running the classifier, compare the models:
 
 ```powershell
-.\.venv\Scripts\python.exe Evaluation/compare_classifiers.py
-.\.venv\Scripts\python.exe Evaluation/compare_subject_weighting.py
+py -3.12 Evaluation/compare_classifiers.py
+py -3.12 Evaluation/compare_subject_weighting.py
 ```
 
 - **Scores and matrices:** `Evaluation/results/`
