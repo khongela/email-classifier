@@ -111,7 +111,7 @@ Run the main workflow first, then:
 .\.venv\Scripts\python.exe Evaluation/export_figures.py
 ```
 
-Evaluation takes longer than the main workflow because it repeatedly trains and tests models. Scores and matrices are saved in `Evaluation/results/`. The figure script reads these files and creates eight SVG charts, plus three PNGs, in `Evaluation/figures/`.
+Evaluation takes longer than the main workflow because it repeatedly trains and tests models. Scores and matrices are saved in `Evaluation/results/`. The figure script reads these files and creates nine SVG charts, plus four PNGs, in `Evaluation/figures/`.
 
 The initial comparison evaluates each email once. The settings comparison evaluates each email five times. Its confusion matrices therefore contain 220 predictions from 44 distinct emails.
 
@@ -132,6 +132,10 @@ The comparisons use different evaluation splits, which explains the different lo
 ![Classifier comparison](Evaluation/figures/classifier_comparison.svg)
 
 ![Tuned model confusion matrix](Evaluation/figures/settings_tuned_matrix.svg)
+
+![Precision and recall by category](Evaluation/figures/category_precision_recall.svg)
+
+Category precision and recall are calculated from the tuned model's pooled cross-validation predictions. Each of the 44 emails contributes five predictions.
 
 ### Common setup problems
 

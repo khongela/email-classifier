@@ -23,7 +23,8 @@ Path('Evaluation/figures').mkdir(exist_ok=True)
 
 def save_figure(figure, name):
     figure.savefig(f'Evaluation/figures/{name}.svg', bbox_inches='tight')
-    if name in ['classifier_comparison', 'settings_comparison', 'settings_tuned_matrix']:
+    if name in ['classifier_comparison', 'settings_comparison', 'settings_tuned_matrix',
+                'category_precision_recall']:
         figure.savefig(f'Evaluation/figures/{name}.png', dpi=300, bbox_inches='tight')
     plt.close(figure)
 
@@ -85,4 +86,35 @@ for filename, title in [
 
     save_figure(figure, filename)
 
-print('Saved eight SVG charts in Evaluation/figures/.')
+# Calculate category scores from the tuned model's confusion matrix.
+matrix = pd.read_csv('Evaluation/results/settings_tuned_matrix.csv', index_col=0)
+matrix = matrix.reindex(columns=matrix.index)
+correct = pd.Series(matrix.to_numpy().diagonal(), index=matrix.index)
+precision = correct.div(matrix.sum(axis=0).replace(0, float('nan'))).fillna(0)
+recall = correct.div(matrix.sum(axis=1).replace(0, float('nan'))).fillna(0)
+scores = pd.DataFrame({'precision': precision, 'recall': recall})
+scores.to_csv('Evaluation/results/category_precision_recall.csv', index_label='category')
+
+figure, axis = plt.subplots(figsize=(9, 4.5), layout='constrained')
+positions = list(range(len(scores)))
+width = 0.35
+
+precision_bars = axis.bar(
+    [position - width / 2 for position in positions],
+    scores['precision'], width, label='Precision', color='#1d5ca1',
+)
+recall_bars = axis.bar(
+    [position + width / 2 for position in positions],
+    scores['recall'], width, label='Recall', color='#29964a',
+)
+axis.bar_label(precision_bars, fmt='%.2f', padding=4, color='black')
+axis.bar_label(recall_bars, fmt='%.2f', padding=4, color='black')
+axis.set_xticks(positions, [category.replace(' ', '\n') for category in scores.index])
+axis.set_ylim(0, 1.15)
+axis.set_yticks([0, 0.2, 0.4, 0.6, 0.8, 1])
+axis.set_title('Precision and recall by category', pad=35)
+axis.legend(loc='lower center', bbox_to_anchor=(0.5, 1), ncol=2, frameon=False)
+axis.spines[['top', 'right']].set_visible(False)
+save_figure(figure, 'category_precision_recall')
+
+print('Saved nine SVG charts in Evaluation/figures/.')

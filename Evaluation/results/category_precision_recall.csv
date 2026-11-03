@@ -1,0 +1,6 @@
+category,precision,recall
+Account Management,0.8648648648648649,0.9846153846153847
+Insurance Claims,1.0,1.0
+Investment Advisory,1.0,1.0
+Loan Processing,0.8571428571428571,1.0
+Other,0.9375,0.5
