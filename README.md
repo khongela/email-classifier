@@ -12,14 +12,25 @@ Built with Python, pandas, Beautiful Soup and scikit-learn. Charts use Matplotli
 
 ## Setup and run
 
-Install **Python 3.12** and **Git**, then run these commands in PowerShell:
+Install **Python 3.12** and **Git**, then open PowerShell.
+
+Clone the repository:
 
 ```powershell
 git clone https://github.com/khongela/email-classifier.git
 cd email-classifier
+```
 
+Create the environment and install the packages:
+
+```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+Run the complete workflow:
+
+```powershell
 .\.venv\Scripts\python.exe run.py
 ```
 
@@ -70,5 +81,8 @@ The classifier comparison evaluates each email once. The settings comparison eva
 
 ## Next steps
 
-Collect more verified emails, especially examples of Other, and use staff corrections to improve the training data. Email threads, attachments and sender details could add context. MiniLM embeddings could also be compared with TF-IDF to test whether they improve classification.
+- Collect more verified emails, especially examples of Other.
+- Use staff corrections to improve the training data.
+- Add context from email threads, attachments and sender details.
+- Compare MiniLM embeddings with TF-IDF to test whether they improve classification.
 
