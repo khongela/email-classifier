@@ -78,7 +78,7 @@ These results come from a small dataset used during development. A larger indepe
 ## Reproduce the evaluation
 
 <details>
-<summary>Show evaluation and chart commands</summary>
+<summary>Show evaluation commands</summary>
 
 After running the classifier, compare the models:
 
@@ -87,15 +87,8 @@ After running the classifier, compare the models:
 .\.venv\Scripts\python.exe Evaluation/compare_subject_weighting.py
 ```
 
-Install the plotting packages and generate the charts:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements-figures.txt
-.\.venv\Scripts\python.exe Evaluation/export_figures.py
-```
-
 - **Scores and matrices:** `Evaluation/results/`
-- **Charts:** `Evaluation/figures/`
+- **Completed report diagrams:** `Evaluation/figures/`
 
 The classifier comparison evaluates each email once. The settings comparison evaluates each email five times.
 
