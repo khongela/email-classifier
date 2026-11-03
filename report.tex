@@ -131,7 +131,7 @@ I chose TF-IDF with logistic regression because it performed best in the tests a
 
 Giving the subject line extra weight did not improve the results, so the final model treats the subject and body as one piece of text.
 
-The confidence score is the highest probability produced by the model. I considered calibration, which adjusts these scores to better reflect how often predictions are correct. I did not use it because the small dataset leaves little data for this extra step. The scores should therefore be treated as an indication of confidence rather than a guarantee.
+The confidence score is the highest probability produced by the model. I considered calibration, which adjusts these scores to better reflect how often predictions are correct. I did not use it because the small dataset leaves little data for this extra step.
 
 \section{Measuring Success and Compliance}
 Figure~\ref{fig:category_precision_recall} shows that Other needs the most attention. Only half of these messages were identified; the rest were sent to Account Management or Loan Processing.
