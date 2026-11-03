@@ -54,7 +54,7 @@ Logistic regression performed best in the initial comparison against Multinomial
 |---|---:|---:|
 | Tuned TF-IDF + logistic regression | 92.73% | 0.898 |
 
-The confidence scores for the 12 predictions range from about 0.21 to 0.24. This means the model gives its chosen category only a small lead over the alternatives, despite performing well in cross-validation. Calibration could be tested to make the probability scores better reflect how often predictions are correct. It would need to be fitted and checked using held-out emails, with more labelled data needed to confirm any improvement.
+The confidence scores are low, even though the model classified most emails correctly during testing. Calibration could help the scores better reflect how often the model is right. This would need further testing with more labelled emails.
 
 [View the final predictions CSV](outputs/results.csv) for all 12 emails, including their IDs, predicted categories and confidence scores.
 
