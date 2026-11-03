@@ -105,6 +105,14 @@ The classifier comparison evaluates each email once. The settings comparison eva
 
 </details>
 
+## Design decisions and trade-offs
+
+- **Model choice:** TF-IDF with logistic regression was chosen because it is easy to train and explain. Embeddings or an LLM may understand meaning better, but would be more complex and need more data for a fair test.
+- **Text input:** Giving the subject extra weight did not help, so the subject and body are treated as one piece of text.
+- **Confidence scores:** The scores are low despite the strong test results. Calibration may make them more useful, but it needs more data and testing.
+- **Small dataset:** Cross-validation made use of all 44 labelled emails, but the results still need to be confirmed on a larger independent set.
+- **Human review:** Other was the hardest category to identify, so staff should check predictions during the pilot.
+
 ## Next steps
 
 - Collect more verified emails, especially examples of Other.
