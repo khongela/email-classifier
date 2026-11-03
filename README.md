@@ -32,8 +32,6 @@ git --version
 
 Continue when these show Python 3.12 and a Git version. If `py` reports "No suitable Python runtime found", complete the Python installation above and reopen PowerShell.
 
-If `winget` is unavailable, install or update [App Installer](https://apps.microsoft.com/detail/9nblggh4nns1) from the Microsoft Store. You can also install [Python 3.12](https://www.python.org/downloads/release/python-31210/) and [Git for Windows](https://git-scm.com/downloads/win) directly. In the Python installer, keep pip and the Python launcher selected.
-
 ### 2. Get the project
 
 Choose a folder for the project, then run:
