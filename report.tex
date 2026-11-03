@@ -20,14 +20,14 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.5\baselineskip}
 
-\section{Problem}
+\section{Problem and Requirements}
 RedRock receives many client emails and needs to send each one to the right department. Sending an email to the wrong team could delay a response and create problems in a regulated financial business.
 
 We are given 44 emails with known categories and 12 emails to classify. For each of the 12 emails, we need to choose one of five categories: Account Management, Investment Advisory, Loan Processing, Insurance Claims, or Other. The classifications need to be provided with a confidence score and saved in a CSV file.
 
 In machine learning, this is a multiclass classification problem. A multiclass classifier chooses one category from a set of possible categories for each email. Here, the input is the email text and the output is one of the five business categories.
 
-\section{Introduction}
+\section{Approach and Model Choice}
 There are several ways to solve this problem. We could turn the text into TF-IDF features and train a logistic regression model, use semantic embeddings, or ask a large language model to classify each email through an API. I began with the simpler approach so I could understand its decisions and test its performance on the labelled emails.
 
 TF-IDF stands for term frequency inverse document frequency. It turns each email into numbers by giving more weight to words that appear often in that email but are less common across the training set.
@@ -39,7 +39,7 @@ I started by reading studies that compare ways to classify emails into several c
 
 I also looked at two GitHub projects. avannaldas~\cite{avannaldas} used TF-IDF with an SGD classifier and grid search. VoxDroid~\cite{voxdroid} used word counts with Multinomial Naive Bayes. These examples helped me compare simple ways to classify email text.
 
-\section{Methodology}
+\section{Architecture and Implementation}
 
 \subsection{Preparing the emails}
 I used Beautiful Soup to extract each email's ID, subject and body from the supplied HTML files. I removed scripts and styles, then combined the subject and body into one text field for classification. I matched the training emails to their labels using filenames and kept the IDs from the HTML for the final results.
@@ -126,15 +126,19 @@ The results are promising, but only 44 labelled emails were available. A larger 
 \end{tabular}
 \end{table}
 
-\section{Discussion}
-I chose TF-IDF with logistic regression because it performed best in the tests, was easy to run, and allowed me to inspect which words influenced its predictions.
+\section{Design Decisions and Trade-offs}
+I chose TF-IDF with logistic regression because it performed best in the tests and was easy to train, explain and inspect. Embeddings or an LLM may understand meaning better, but they would add complexity and need more labelled emails for a fair comparison.
 
-\section{Measuring Success}
+Giving the subject line extra weight did not improve the results, so the final model treats the subject and body as one piece of text.
+
+The confidence score is the highest probability produced by the model. I considered calibration, which adjusts these scores to better reflect how often predictions are correct. I did not use it because the small dataset leaves little data for this extra step. The scores should therefore be treated as an indication of confidence rather than a guarantee.
+
+\section{Measuring Success and Compliance}
 Figure~\ref{fig:category_precision_recall} shows that Other needs the most attention. Only half of these messages were identified; the rest were sent to Account Management or Loan Processing.
 
 During a pilot, staff should check every route and record corrections, especially messages incorrectly assigned to a specialist department. I would track routing errors, response delays, missed deadlines and compliance incidents linked to incorrect forwarding. More verified examples of Other would help address this weakness, with improvements checked on fresh labelled emails.
 
-\section{Conclusion}
+\section{Maintainability and Future Work}
 TF-IDF with logistic regression gave promising results, but more labelled emails are needed to test how well it handles new messages. Email threads, attachment text, sender and recipient details, and staff corrections could provide useful context.
 
 A future version could compare MiniLM embeddings with TF-IDF to test whether capturing meaning beyond individual words improves classification.
@@ -154,7 +158,7 @@ VoxDroid, ``NLP-Email-Categorizer,'' GitHub repository. \href{https://github.com
 \end{thebibliography}
 
 \clearpage
-\section{Diagrams}
+\section{Supporting Diagrams}
 
 \begin{figure}[H]
 \centering
