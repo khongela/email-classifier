@@ -12,22 +12,46 @@ It uses TF-IDF and logistic regression to learn from 44 labelled emails and clas
 
 ## Setup and run
 
-Install **Python 3.12** and **Git**, then open PowerShell.
+These instructions are for Windows 10/11 and require an internet connection.
 
-### 1. Clone the repository
+### 1. Install Python and Git
+
+Open PowerShell and run these commands if Python 3.12 or Git is missing:
+
+```powershell
+winget install --exact --id Python.Python.3.12 --source winget --scope user
+winget install --exact --id Git.Git --source winget
+```
+
+Follow any installer prompts, then close and reopen PowerShell. Check both installations:
+
+```powershell
+py -3.12 --version
+git --version
+```
+
+Continue when these show Python 3.12 and a Git version. If `py` reports "No suitable Python runtime found", complete the Python installation above and reopen PowerShell.
+
+If `winget` is unavailable, install or update [App Installer](https://apps.microsoft.com/detail/9nblggh4nns1) from the Microsoft Store. You can also install [Python 3.12](https://www.python.org/downloads/release/python-31210/) and [Git for Windows](https://git-scm.com/downloads/win) directly. In the Python installer, keep pip and the Python launcher selected.
+
+### 2. Get the project
+
+Choose a folder for the project, then run:
 
 ```powershell
 git clone https://github.com/khongela/email-classifier.git
 cd email-classifier
 ```
 
-### 2. Install the packages
+If you downloaded the submission from Google Drive, extract it and open PowerShell in the folder containing `run.py` instead.
+
+### 3. Install the packages
 
 ```powershell
 py -3.12 -m pip install --user -r requirements.txt
 ```
 
-### 3. Run the classifier
+### 4. Run the classifier
 
 ```powershell
 py -3.12 run.py
