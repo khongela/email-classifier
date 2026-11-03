@@ -1,169 +1,74 @@
 # Email Classification for Financial Services
 
-## 1. What the project does
+## About
 
-The program reads email subjects and bodies from HTML files, learns from 44 labelled examples, and classifies 12 unlabelled emails into one of five categories:
+This project classifies client emails into Account Management, Investment Advisory, Loan Processing, Insurance Claims or Other.
 
-- Account Management
-- Investment Advisory
-- Loan Processing
-- Insurance Claims
-- Other
+It uses TF-IDF and logistic regression to learn from 44 labelled emails and classify 12 unlabelled emails. The workflow reads the supplied HTML files, trains the model and saves each email’s predicted category and confidence score.
 
-It saves each email's ID, predicted category and confidence score to [outputs/results.csv](outputs/results.csv).
+Built with Python, pandas, Beautiful Soup and scikit-learn. Charts use Matplotlib.
 
-TF-IDF turns the text into numbers, and logistic regression uses those numbers to choose a category. The confidence score is the highest probability returned by the model. Its relationship to actual correctness has not been independently tested.
+[Read the report](report.pdf)
 
-The work is split into the three components requested in the assignment.
+## Setup and run
 
-```text
-Ingestion/          Read and prepare the emails
-Modelling/          Tune, train and save the classifier
-Reporting/          Write the final predictions CSV
-data/               Supplied HTML emails and training labels
-outputs/            Saved classifier and final predictions
-Evaluation/
-    results/        Comparison scores and confusion matrices
-    figures/        SVG and PNG charts
-    compare_classifiers.py
-    compare_subject_weighting.py
-    export_figures.py
-run.py              Run the three main steps
-requirements.txt
-requirements-figures.txt
-report.pdf
-```
-
-## 2. Tools and libraries used
-
-- Python 3.12
-- pandas for reading labels and writing CSV files
-- Beautiful Soup for extracting email text from HTML
-- scikit-learn for TF-IDF, classification and cross-validation
-- joblib for saving and loading the trained model
-- Matplotlib for evaluation charts
-
-The model runs locally using open-source tools. No API key is required.
-
-## 3. How to set up and run
-
-### Before starting
-
-Install Python 3.12 and Git. On Windows, enable the Python launcher when installing Python. Internet access is needed to clone the repository and install the packages.
-
-### Windows PowerShell
-
-Open PowerShell and run:
+Install **Python 3.12** and **Git**, then run these commands in PowerShell:
 
 ```powershell
 git clone https://github.com/khongela/email-classifier.git
 cd email-classifier
-py -3.12 --version
+
 py -3.12 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe run.py
 ```
 
-These commands use the virtual environment directly, so activation is unnecessary.
+Run commands from the repository root, where `run.py` is located. The supplied emails and labels are included in `data/`.
 
-### Expected output
-
-Keep the terminal in the repository root, where `run.py` is located. The supplied input files are under `data/train/`, `data/test/` and `data/train_labels.csv`.
-
-The program runs ingestion, modelling and reporting in order. It prints the selected settings and the 12 predictions, and creates:
-
-| File | Contents |
-|---|---|
-| `data/train.csv` | Prepared training emails and labels |
-| `data/test.csv` | Prepared unlabelled emails |
-| `outputs/email_classifier.joblib` | Trained TF-IDF and logistic regression pipeline |
-| `outputs/results.csv` | Final predictions |
-
-The results CSV has exactly these columns:
+The workflow runs ingestion, modelling and reporting in order. Final predictions are saved to **`outputs/results.csv`** with these columns:
 
 ```text
 email_id,predicted_category,confidence_score
 ```
 
-Labels are matched using filenames. The output uses the email IDs inside the HTML files.
+The trained model is saved to `outputs/email_classifier.joblib`. Confidence is the highest predicted class probability.
 
-### Run individual steps
+## Results
 
-On Windows:
+Logistic regression performed best in the initial comparison against Multinomial Naive Bayes and SGD. Tuning improved its performance, while giving the subject line extra weight did not.
 
-```powershell
-.\.venv\Scripts\python.exe Ingestion/ingestion.py
-.\.venv\Scripts\python.exe Modelling/modelling.py
-.\.venv\Scripts\python.exe Reporting/reporting.py
-```
+| Final model | Mean accuracy | Mean macro F1 |
+|---|---:|---:|
+| Tuned TF-IDF + logistic regression | 92.73% | 0.898 |
 
-Run ingestion before training. After the model has been saved, reporting can be run on its own using the prepared test CSV.
+![Precision and recall by category](Evaluation/figures/category_precision_recall.svg)
 
-### Reproduce the evaluation and figures
+**Other remains the main weakness.** Only half of its messages were identified across the repeated evaluation. Staff should check routes during a pilot, with particular attention to messages outside the specialist categories.
+
+These results come from a small dataset used during development. A larger independent test set is needed to confirm performance on new emails.
+
+## Reproduce the evaluation
+
+<details>
+<summary>Show evaluation and chart commands</summary>
 
 Run the main workflow first, then:
 
 ```powershell
 .\.venv\Scripts\python.exe Evaluation/compare_classifiers.py
 .\.venv\Scripts\python.exe Evaluation/compare_subject_weighting.py
+
 .\.venv\Scripts\python.exe -m pip install -r requirements-figures.txt
 .\.venv\Scripts\python.exe Evaluation/export_figures.py
 ```
 
-Evaluation takes longer than the main workflow because it repeatedly trains and tests models. Scores and matrices are saved in `Evaluation/results/`. The figure script reads these files and creates nine SVG charts, plus four PNGs, in `Evaluation/figures/`.
+Scores and confusion matrices are saved in `Evaluation/results/`. Charts are saved in `Evaluation/figures/`.
 
-The initial comparison evaluates each email once. The settings comparison evaluates each email five times. Its confusion matrices therefore contain 220 predictions from 44 distinct emails.
+The classifier comparison evaluates each email once. The settings comparison evaluates each email five times. The precision and recall chart combines those repeated predictions.
 
-| Classifier | Correct emails | Accuracy | Macro F1 |
-|---|---:|---:|---:|
-| Logistic regression | 43/44 | 97.73% | 0.966 |
-| Multinomial Naive Bayes | 41/44 | 93.18% | 0.904 |
-| SGD | 41/44 | 93.18% | 0.904 |
+</details>
 
-| Logistic regression version | Mean accuracy | Mean macro F1 |
-|---|---:|---:|
-| Default | 79.09% | 0.666 |
-| Tuned | 92.73% | 0.898 |
-| Extra subject weighting | 91.36% | 0.877 |
+## Next steps
 
-The comparisons use different evaluation splits, which explains the different logistic regression scores.
-
-![Classifier comparison](Evaluation/figures/classifier_comparison.svg)
-
-![Tuned model confusion matrix](Evaluation/figures/settings_tuned_matrix.svg)
-
-![Precision and recall by category](Evaluation/figures/category_precision_recall.svg)
-
-Category precision and recall are calculated from the tuned model's pooled cross-validation predictions. Each of the 44 emails contributes five predictions.
-
-### Common setup problems
-
-- **Python 3.12 cannot be found.** Install that version, reopen the terminal and check `py -3.12 --version` on Windows.
-- **A package cannot be imported.** Install the requirements with the same virtual environment interpreter used to run the scripts.
-- **A data file cannot be found.** Check that the terminal is inside `email-classifier`, alongside `run.py`.
-- **A prepared CSV is missing.** Run ingestion or the complete workflow first.
-- **Package installation fails.** Check the Python version and internet connection. The main dependencies use fixed versions.
-
-## 4. Challenges faced
-
-The small dataset made evaluation sensitive to which emails were used for training and testing. Cross-validation helped compare approaches, but the results still need confirmation on fresh emails.
-
-The Other category was harder to classify because it covers messages outside the four specialist categories. Its mistakes were easier to see in the confusion matrix than in the overall accuracy.
-
-Email filenames and internal email IDs also had different roles. Labels had to be joined by filename while predictions had to preserve the internal IDs.
-
-## 5. What the project showed
-
-Tuning improved the logistic regression baseline. Giving the subject extra weight did not improve the results, so the final approach uses the combined subject and body.
-
-Keeping TF-IDF inside the training pipeline allowed each evaluation model to learn its vocabulary from its training emails. Comparing models on the same splits also made their results easier to assess.
-
-The scores are development estimates from a dataset used during model selection. Staff review during a pilot and a larger independent test set would provide better evidence of how the system handles new messages.
-
-## 6. Next steps
-
-Collect more verified emails, especially examples of Other, and track staff corrections, routing errors and response delays.
-
-Email threads, attachment text, sender and recipient details could provide useful context. MiniLM embeddings could be compared with TF-IDF to test whether meaning beyond exact words improves classification. An LLM using similar past emails and routing guidance could also be explored when more verified examples are available.
+Collect more verified emails, especially examples of Other, and use staff corrections to improve the training data. Email threads, attachments and sender details could add context. MiniLM embeddings could also be compared with TF-IDF to test whether they improve classification.
 
