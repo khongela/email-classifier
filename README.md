@@ -1,12 +1,6 @@
 # Email Classification for Financial Services
 
-## 1. Project motivation
-
-This project explores how a small text classifier can help route client emails to the right department. It was built around a financial services assignment for RedRock, a fictional company where incorrect routing could delay responses.
-
-The aim was to build a simple workflow that could be explained, tested and run locally.
-
-## 2. What the project does
+## 1. What the project does
 
 The program reads email subjects and bodies from HTML files, learns from 44 labelled examples, and classifies 12 unlabelled emails into one of five categories:
 
@@ -40,7 +34,7 @@ requirements-figures.txt
 report.pdf
 ```
 
-## 3. Tools and libraries used
+## 2. Tools and libraries used
 
 - Python 3.12
 - pandas for reading labels and writing CSV files
@@ -51,7 +45,7 @@ report.pdf
 
 The model runs locally using open-source tools. No API key is required.
 
-## 4. How to set up and run
+## 3. How to set up and run
 
 ### Before starting
 
@@ -72,19 +66,6 @@ py -3.12 -m venv .venv
 ```
 
 These commands use the virtual environment directly, so activation is unnecessary.
-
-### macOS or Linux
-
-With Python 3.12 and Git installed:
-
-```bash
-git clone https://github.com/khongela/email-classifier.git
-cd email-classifier
-python3.12 -m venv .venv
-.venv/bin/python -m pip install --upgrade pip
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python run.py
-```
 
 ### Expected output
 
@@ -130,8 +111,6 @@ Run the main workflow first, then:
 .\.venv\Scripts\python.exe Evaluation/export_figures.py
 ```
 
-On macOS or Linux, replace `.\.venv\Scripts\python.exe` with `.venv/bin/python`.
-
 Evaluation takes longer than the main workflow because it repeatedly trains and tests models. Scores and matrices are saved in `Evaluation/results/`. The figure script reads these files and creates eight SVG charts, plus three PNGs, in `Evaluation/figures/`.
 
 The initial comparison evaluates each email once. The settings comparison evaluates each email five times. Its confusion matrices therefore contain 220 predictions from 44 distinct emails.
@@ -162,7 +141,7 @@ The comparisons use different evaluation splits, which explains the different lo
 - **A prepared CSV is missing.** Run ingestion or the complete workflow first.
 - **Package installation fails.** Check the Python version and internet connection. The main dependencies use fixed versions.
 
-## 5. Challenges faced
+## 4. Challenges faced
 
 The small dataset made evaluation sensitive to which emails were used for training and testing. Cross-validation helped compare approaches, but the results still need confirmation on fresh emails.
 
@@ -170,7 +149,7 @@ The Other category was harder to classify because it covers messages outside the
 
 Email filenames and internal email IDs also had different roles. Labels had to be joined by filename while predictions had to preserve the internal IDs.
 
-## 6. What the project showed
+## 5. What the project showed
 
 Tuning improved the logistic regression baseline. Giving the subject extra weight did not improve the results, so the final approach uses the combined subject and body.
 
@@ -178,7 +157,7 @@ Keeping TF-IDF inside the training pipeline allowed each evaluation model to lea
 
 The scores are development estimates from a dataset used during model selection. Staff review during a pilot and a larger independent test set would provide better evidence of how the system handles new messages.
 
-## 7. Next steps
+## 6. Next steps
 
 Collect more verified emails, especially examples of Other, and track staff corrections, routing errors and response delays.
 
