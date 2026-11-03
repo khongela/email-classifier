@@ -50,13 +50,26 @@ The trained model is saved to `outputs/email_classifier.joblib`. Confidence is t
 
 Logistic regression performed best in the initial comparison against Multinomial Naive Bayes and SGD. Tuning improved its performance, while giving the subject line extra weight did not.
 
-| Final model | Mean accuracy | Mean macro F1 |
-|---|---:|---:|
-| Tuned TF-IDF + logistic regression | 92.73% | 0.898 |
-
-The confidence scores are low, even though the model classified most emails correctly during testing. Calibration could help the scores better reflect how often the model is right. This would need further testing with more labelled emails.
+<table align="center">
+  <thead>
+    <tr>
+      <th>Final model</th>
+      <th>Mean accuracy</th>
+      <th>Mean macro F1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tuned TF-IDF + logistic regression</td>
+      <td align="center">92.73%</td>
+      <td align="center">0.898</td>
+    </tr>
+  </tbody>
+</table>
 
 [View the final predictions CSV](outputs/results.csv) for all 12 emails, including their IDs, predicted categories and confidence scores.
+
+The confidence scores are low, even though the model classified most emails correctly during testing. Calibration could help the scores better reflect how often the model is right. This would need further testing with more labelled emails.
 
 **Other remains the main weakness.** Only half of its messages were identified across the repeated evaluation. Staff should check routes during a pilot, with particular attention to messages outside the specialist categories.
 
