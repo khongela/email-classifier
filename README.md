@@ -54,7 +54,7 @@ Logistic regression performed best in the initial comparison against Multinomial
 |---|---:|---:|
 | Tuned TF-IDF + logistic regression | 92.73% | 0.898 |
 
-![Precision and recall by category](Evaluation/figures/category_precision_recall.svg)
+[View the final predictions CSV](outputs/results.csv) for all 12 emails, including their IDs, predicted categories and confidence scores.
 
 **Other remains the main weakness.** Only half of its messages were identified across the repeated evaluation. Staff should check routes during a pilot, with particular attention to messages outside the specialist categories.
 
@@ -82,7 +82,7 @@ Install the plotting packages and generate the charts:
 - **Scores and matrices:** `Evaluation/results/`
 - **Charts:** `Evaluation/figures/`
 
-The classifier comparison evaluates each email once. The settings comparison evaluates each email five times. The precision and recall chart combines those repeated predictions.
+The classifier comparison evaluates each email once. The settings comparison evaluates each email five times.
 
 </details>
 
@@ -92,4 +92,5 @@ The classifier comparison evaluates each email once. The settings comparison eva
 - Use staff corrections to improve the training data.
 - Add context from email threads, attachments and sender details.
 - Compare MiniLM embeddings with TF-IDF to test whether they improve classification.
+- Explore calibration to test whether the probability scores better match observed correctness.
 
