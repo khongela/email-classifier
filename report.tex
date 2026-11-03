@@ -130,7 +130,7 @@ The results are promising, but only 44 labelled emails were available. A larger 
 I chose TF-IDF with logistic regression because it performed best in the tests, was easy to run, and allowed me to inspect which words influenced its predictions.
 
 \section{Measuring Success}
-The precision and recall results in Figure~\ref{fig:category_precision_recall} show that Other needs the most attention. Only half of the Other messages were identified across the repeated evaluation. The remaining messages were sent to Account Management or Loan Processing. This means the model can miss messages that fall outside the specialist categories, even when its overall accuracy is high.
+Figure~\ref{fig:category_precision_recall} shows that Other needs the most attention. Only half of these messages were identified; the rest were sent to Account Management or Loan Processing.
 
 During a pilot, staff should check every route and record corrections, especially messages incorrectly assigned to a specialist department. I would track routing errors, response delays, missed deadlines and compliance incidents linked to incorrect forwarding. More verified examples of Other would help address this weakness, with improvements checked on fresh labelled emails.
 
@@ -139,7 +139,7 @@ TF-IDF with logistic regression gave promising results, but more labelled emails
 
 A future version could compare MiniLM embeddings with TF-IDF to test whether capturing meaning beyond individual words improves classification.
 
-With more verified examples, I would also test an LLM with retrieval-augmented generation. It could use similar previously classified emails and routing guidance to help choose a category. This may be useful in a large organization such as a bank, where emails cover many topics and departments.
+With more verified examples, I would also test an LLM with retrieval-augmented generation. It could use similar previously classified emails and routing guidance to help choose a category. This may be useful in a financial services company, where emails cover many topics and departments.
 
 \setlength{\parskip}{0pt}
 \begin{thebibliography}{9}
