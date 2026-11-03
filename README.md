@@ -6,7 +6,7 @@ This project classifies client emails into Account Management, Investment Adviso
 
 It uses TF-IDF and logistic regression to learn from 44 labelled emails and classify 12 unlabelled emails. The workflow reads the supplied HTML files, trains the model and saves each email’s predicted category and confidence score.
 
-Built with Python, pandas, Beautiful Soup and scikit-learn. Charts use Matplotlib.
+**Tools:** Python · pandas · Beautiful Soup · scikit-learn · Matplotlib
 
 [Read the report](report.pdf)
 
@@ -14,29 +14,31 @@ Built with Python, pandas, Beautiful Soup and scikit-learn. Charts use Matplotli
 
 Install **Python 3.12** and **Git**, then open PowerShell.
 
-Clone the repository:
+### 1. Clone the repository
 
 ```powershell
 git clone https://github.com/khongela/email-classifier.git
 cd email-classifier
 ```
 
-Create the environment and install the packages:
+### 2. Set up the environment
 
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-Run the complete workflow:
+### 3. Run the classifier
 
 ```powershell
 .\.venv\Scripts\python.exe run.py
 ```
 
-Run commands from the repository root, where `run.py` is located. The supplied emails and labels are included in `data/`.
+Run all commands from the repository root, where `run.py` is located. The supplied emails and labels are in `data/`.
 
-The workflow runs ingestion, modelling and reporting in order. Final predictions are saved to **`outputs/results.csv`** with these columns:
+### Output
+
+The workflow runs ingestion, modelling and reporting in order and saves the final predictions to **`outputs/results.csv`**.
 
 ```text
 email_id,predicted_category,confidence_score
@@ -63,17 +65,22 @@ These results come from a small dataset used during development. A larger indepe
 <details>
 <summary>Show evaluation and chart commands</summary>
 
-Run the main workflow first, then:
+After running the classifier, compare the models:
 
 ```powershell
 .\.venv\Scripts\python.exe Evaluation/compare_classifiers.py
 .\.venv\Scripts\python.exe Evaluation/compare_subject_weighting.py
+```
 
+Install the plotting packages and generate the charts:
+
+```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements-figures.txt
 .\.venv\Scripts\python.exe Evaluation/export_figures.py
 ```
 
-Scores and confusion matrices are saved in `Evaluation/results/`. Charts are saved in `Evaluation/figures/`.
+- **Scores and matrices:** `Evaluation/results/`
+- **Charts:** `Evaluation/figures/`
 
 The classifier comparison evaluates each email once. The settings comparison evaluates each email five times. The precision and recall chart combines those repeated predictions.
 
