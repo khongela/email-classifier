@@ -1,9 +1,5 @@
 # Email Classification for Financial Services
 
-<p align="center">
-  <img src="assets/canyon.jpg" alt="Sunlight on red sandstone canyon walls" width="612">
-</p>
-
 ## About
 
 This project classifies client emails into Account Management, Investment Advisory, Loan Processing, Insurance Claims or Other.
