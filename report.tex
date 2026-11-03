@@ -129,7 +129,10 @@ The results are promising, but only 44 labelled emails were available. A larger 
 \section{Discussion}
 I chose TF-IDF with logistic regression because it performed best in the tests, was easy to run, and allowed me to inspect which words influenced its predictions.
 
-I would measure success through precision and recall for each category, routing errors, staff corrections and response delays. Given the small training set, staff should check every route during a pilot. Their feedback would help identify errors and guide further improvements.
+\section{Measuring Success}
+The precision and recall results in Figure~\ref{fig:category_precision_recall} show that Other needs the most attention. Only half of the Other messages were identified across the repeated evaluation. The remaining messages were sent to Account Management or Loan Processing. This means the model can miss messages that fall outside the specialist categories, even when its overall accuracy is high.
+
+During a pilot, staff should check every route and record corrections, especially messages incorrectly assigned to a specialist department. I would track routing errors, response delays, missed deadlines and compliance incidents linked to incorrect forwarding. More verified examples of Other would help address this weakness, with improvements checked on fresh labelled emails.
 
 \section{Conclusion}
 TF-IDF with logistic regression gave promising results, but more labelled emails are needed to test how well it handles new messages. Email threads, attachment text, sender and recipient details, and staff corrections could provide useful context.
